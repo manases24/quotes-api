@@ -1,0 +1,30 @@
+version: "3.7"
+services:
+  db:
+    image: postgres:16.2-alpine3.19
+    container_name: postgres
+    restart: always
+    hostname: c-app-postgres
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_USER=${DB_USER}
+      - POSTGRES_PASSWORD=${DB_PASSWORD}
+      - POSTGRES_DB=${DB_NAME}
+    volumes:
+      - ./postgres:/var/lib/postgresql/data
+
+  pgAdmin:
+    image: dpage/pgadmin4:8.5
+    container_name: pgAdmin
+    environment:
+      - PGADMIN_DEFAULT_PASSWORD=superman
+      - PGADMIN_DEFAULT_EMAIL=superman@google.com
+    ports:
+      - "8080:80"
+    depends_on:
+      - db
+
+volumes:
+  postgres:
+    external: false
