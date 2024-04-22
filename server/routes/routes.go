@@ -7,9 +7,15 @@ import (
 	"github.com/mnsh5/quotes/services"
 )
 
-func SetupRouter() *gin.Engine {
+var router = gin.Default()
 
-	router := gin.New()
+// Run iniciará el servidor
+func Run() {
+	configureRoutes()
+	router.Run(":2024")
+}
+
+func configureRoutes() {
 	router.Use(gin.Logger())
 	router.Use(gin.Recovery())
 
@@ -19,7 +25,7 @@ func SetupRouter() *gin.Engine {
 
 	api := router.Group("/api")
 	v1 := api.Group("/v1")
-	v1.POST("/quote", quote.Create)
-
-	return router
+	{
+		v1.POST("/quote", quote.Create)
+	}
 }
