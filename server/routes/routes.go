@@ -11,11 +11,11 @@ var router = gin.Default()
 
 // Run iniciará el servidor
 func Run() {
-	configureRoutes()
+	setupRoutes()
 	router.Run(":2024")
 }
 
-func configureRoutes() {
+func setupRoutes() {
 	router.Use(gin.Logger())
 	router.Use(gin.Recovery())
 
