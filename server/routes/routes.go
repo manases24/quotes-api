@@ -28,6 +28,6 @@ func setupRoutes() {
 	{
 		v1.GET("/quotes", quote.FindAll)
 		v1.POST("/quote", quote.Create)
-		v1.GET("/quote/random", quote.FindRandomQuote)
+		v1.GET("/random/quote", quote.FindRandomQuote)
 	}
 }
