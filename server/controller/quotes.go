@@ -13,10 +13,14 @@ func NewQuotesController(s services.QuotesService) *QuotesController {
 	return &QuotesController{quotesService: s}
 }
 
-func (q QuotesController) Create(c *gin.Context) {
-	q.quotesService.Create(c)
-}
-
 func (q QuotesController) FindRandomQuote(c *gin.Context) {
 	q.quotesService.FindRandomQuote(c)
+}
+
+func (q QuotesController) FindAll(c *gin.Context) {
+	q.quotesService.FindAll(c)
+}
+
+func (q QuotesController) Create(c *gin.Context) {
+	q.quotesService.Create(c)
 }

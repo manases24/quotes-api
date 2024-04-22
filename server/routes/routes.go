@@ -26,6 +26,7 @@ func setupRoutes() {
 	api := router.Group("/api")
 	v1 := api.Group("/v1")
 	{
+		v1.GET("/quotes", quote.FindAll)
 		v1.POST("/quote", quote.Create)
 		v1.GET("/quote/random", quote.FindRandomQuote)
 	}

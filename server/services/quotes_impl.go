@@ -20,6 +20,19 @@ func NewQuotesServiceImpl(Db *gorm.DB) QuotesService {
 	return &QuotesServiceImpl{Db: Db}
 }
 
+func (q *QuotesServiceImpl) FindAll(c *gin.Context) {
+	var quotes []models.Quotes
+	if err := q.Db.Find(&quotes).Error; err != nil {
+		c.JSON(http.StatusNotFound, gin.H{"error": "No quotes found"})
+	}
+
+	c.JSON(http.StatusCreated, gin.H{
+		"status":  "success",
+		"message": "All quotes retrieved successfully",
+		"quote":   quotes,
+	})
+}
+
 func (q *QuotesServiceImpl) FindRandomQuote(c *gin.Context) {
 	// Inicializar el generador de números aleatorios
 	// Crear un generador de números aleatorios local

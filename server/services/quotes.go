@@ -3,6 +3,7 @@ package services
 import "github.com/gin-gonic/gin"
 
 type QuotesService interface {
-	Create(c *gin.Context)
+	FindAll(c *gin.Context)
 	FindRandomQuote(c *gin.Context)
+	Create(c *gin.Context)
 }
