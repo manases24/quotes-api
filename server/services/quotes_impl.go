@@ -40,6 +40,6 @@ func (q *QuotesServiceImpl) Create(c *gin.Context) {
 	c.JSON(http.StatusCreated, gin.H{
 		"status":  "success",
 		"message": "Quote has been created",
-		"data":    quote,
+		"quote":   quote,
 	})
 }
