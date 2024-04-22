@@ -1,7 +1,9 @@
 package services
 
 import (
+	"math/rand"
 	"net/http"
+	"time"
 
 	"log"
 
@@ -16,6 +18,48 @@ type QuotesServiceImpl struct {
 
 func NewQuotesServiceImpl(Db *gorm.DB) QuotesService {
 	return &QuotesServiceImpl{Db: Db}
+}
+
+func (q *QuotesServiceImpl) FindRandomQuote(c *gin.Context) {
+	// Inicializar el generador de números aleatorios
+	// Crear un generador de números aleatorios local
+	seed := time.Now().UnixNano()
+	src := rand.NewSource(seed)
+	rnd := rand.New(src)
+
+	// Contar el total de quotes en la base de datos
+	var count int64
+	if err := q.Db.Model(&models.Quotes{}).Count(&count).Error; err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+
+	// Verificar si no hay quotes en la base de datos
+	if count == 0 {
+		c.JSON(http.StatusNotFound, gin.H{"error": "No quotes found"})
+		return
+	}
+
+	// Generar un ID aleatorio dentro del rango de IDs disponibles
+	randID := rnd.Int63n(count) + 1 // Sumamos 1 para evitar el ID 0 si comienza desde 1
+
+	// Buscar el quote correspondiente al ID aleatorio
+	var randomQuote models.Quotes
+	if err := q.Db.First(&randomQuote, randID).Error; err != nil {
+		// Si el ID aleatorio no corresponde a un quote existente, intentar otra vez
+		if err == gorm.ErrRecordNotFound {
+			q.FindRandomQuote(c)
+			return
+		}
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+
+	// Devolver el quote aleatorio como respuesta JSON
+	c.JSON(http.StatusOK, gin.H{
+		"quote":  randomQuote.Quote,
+		"author": randomQuote.Author,
+	})
 }
 
 func (q *QuotesServiceImpl) Create(c *gin.Context) {

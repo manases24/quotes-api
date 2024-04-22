@@ -11,8 +11,6 @@ type User struct {
 }
 
 func main() {
-
 	database.ConnectDB()
 	routes.Run()
-
 }
