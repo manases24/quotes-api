@@ -2,7 +2,7 @@ version: "3.7"
 services:
   db:
     image: postgres:16.2-alpine3.19
-    container_name: postgres
+    container_name: database
     restart: always
     hostname: c-app-postgres
     ports:
@@ -16,7 +16,7 @@ services:
 
   pgAdmin:
     image: dpage/pgadmin4:8.5
-    container_name: pgAdmin
+    container_name: pgadmin
     environment:
       - PGADMIN_DEFAULT_PASSWORD=superman
       - PGADMIN_DEFAULT_EMAIL=superman@google.com

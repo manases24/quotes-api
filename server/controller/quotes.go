@@ -13,6 +13,6 @@ func NewQuotesController(s services.QuotesService) *QuotesController {
 	return &QuotesController{quotesService: s}
 }
 
-func (q QuotesController) Create(c *gin.Context) error {
-	return q.quotesService.Create(c)
+func (q QuotesController) Create(c *gin.Context) {
+	q.quotesService.Create(c)
 }
