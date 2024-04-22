@@ -1,6 +1,9 @@
 package main
 
-import "github.com/gin-gonic/gin"
+import (
+	"github.com/mnsh5/quotes/database"
+	"github.com/mnsh5/quotes/routes"
+)
 
 type User struct {
 	Name    string
@@ -8,15 +11,8 @@ type User struct {
 }
 
 func main() {
-	r := gin.Default()
 
-	user := &User{Name: "Jazz", Country: "Catland"}
+	database.ConnectDB()
+	routes.Run()
 
-	r.GET("/ping", func(c *gin.Context) {
-		c.JSON(200, gin.H{
-			"message": "pong",
-			"user":    user,
-		})
-	})
-	r.Run(":2024")
 }
