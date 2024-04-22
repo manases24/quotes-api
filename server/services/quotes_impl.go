@@ -1,6 +1,7 @@
 package services
 
 import (
+	"fmt"
 	"math/rand"
 	"net/http"
 	"time"
@@ -30,6 +31,21 @@ func (q *QuotesServiceImpl) FindAll(c *gin.Context) {
 		"status":  "success",
 		"message": "All quotes retrieved successfully",
 		"quote":   quotes,
+	})
+}
+
+func (q *QuotesServiceImpl) FindById(c *gin.Context) {
+	id := c.Param("id")
+	var quote models.Quotes
+	if err := q.Db.First(&quote, &id).Error; err != nil {
+		errorMessage := fmt.Sprintf("No task found with ID: %s", id)
+		c.JSON(http.StatusNotFound, gin.H{"error": errorMessage})
+	}
+
+	c.JSON(http.StatusCreated, gin.H{
+		"status":  "success",
+		"message": "Quote with the provided ID found",
+		"quote":   quote,
 	})
 }
 

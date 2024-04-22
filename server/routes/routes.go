@@ -27,6 +27,7 @@ func setupRoutes() {
 	v1 := api.Group("/v1")
 	{
 		v1.GET("/quotes", quote.FindAll)
+		v1.GET("/quote/:id", quote.FindById)
 		v1.POST("/quote", quote.Create)
 		v1.GET("/random/quote", quote.FindRandomQuote)
 	}

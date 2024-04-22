@@ -21,6 +21,10 @@ func (q QuotesController) FindAll(c *gin.Context) {
 	q.quotesService.FindAll(c)
 }
 
+func (q QuotesController) FindById(c *gin.Context) {
+	q.quotesService.FindById(c)
+}
+
 func (q QuotesController) Create(c *gin.Context) {
 	q.quotesService.Create(c)
 }
